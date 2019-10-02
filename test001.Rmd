@@ -1,0 +1,61 @@
+Linear regression
+```{r}
+dataset=read.csv("train.csv")
+submit=read.csv("test.csv")
+library(caTools)
+
+```
+
+```{r}
+split = sample.split(dataset$revenue, SplitRatio = .66)
+training_set = subset(dataset, split==TRUE)
+test_set = subset(dataset, split==FALSE)
+
+
+```
+
+```{r}
+#fitting simple linear regression to the training set
+simplefit=lm(formula=revenue~budget,
+             data = training_set)
+summary(simplefit)
+```
+
+```{r}
+multifit=lm(formula=revenue~budget+popularity,
+             data = training_set)
+summary(multifit)
+```
+```{r}
+#simplefit prediction
+test_set$simfit=predict(simplefit,newdata =test_set )
+```
+
+
+```{r}
+#multifit prediction
+#test_set$mulfit=predict(multifit,newdata =test_set )
+
+print(length(submit$ï..id))
+df=data.frame(id=c(submit$ï..id),revenue=rep(0,length(submit$ï..id)))
+
+df$revenue=predict(multifit,newdata =submit )
+```
+
+```{r}
+#visualising the training set results
+library(ggplot2)
+ggplot()+
+  geom_point(aes(x=training_set$budget,y=training_set$revenue),
+            colour='red')+
+  geom_line(aes(x=training_set$budget,y=predict(multifit,newdata = training_set)),
+            colour='blue')+
+  ggtitle('budget vs revenue')+
+  xlab('budget')+
+  ylab('revenue')
+```
+
+```{r}
+write.csv(df, file="submittion_lm.csv")
+```
+

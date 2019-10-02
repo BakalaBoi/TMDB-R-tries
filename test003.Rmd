@@ -1,0 +1,14 @@
+Decision Tree
+```{r}
+dataset=read.csv("train.csv")
+submit=read.csv("test.csv")
+library(caTools)
+dataset[c(1336,2303),15]=104
+```
+
+
+```{r}
+
+```
+
+

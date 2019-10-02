@@ -1,0 +1,43 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+# Importing the dataset
+dataset = read.csv('50_Startups.csv')
+#factoring the data
+
+dataset$State = factor(dataset$State,
+                          levels=c('New York', 'California', 'Florida'),
+                         labels = c(1, 2, 3))
+
+# Splitting the dataset into the Training set and Test set
+# install.packages('caTools')
+library(caTools)
+set.seed(123)
+split = sample.split(dataset$Profit, SplitRatio = 0.8)
+training_set = subset(dataset, split == TRUE)
+test_set = subset(dataset, split == FALSE)
+
+
+#building the regression model
+regressor=lm(formula = Profit ~ ., 
+             data = training_set)
+
+summary(regressor)
+```
+```{r}
+y_pred=predict(regressor,newdata = test_set)
+```
+```{r}
+#building the optimal model with Backward Elimination
+regressor=lm(formula = Profit ~ R.D.Spend+Administration+Marketing.Spend+State, 
+             data = dataset)
+summary(regressor)
+```
+

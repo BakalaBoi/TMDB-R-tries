@@ -1,0 +1,266 @@
+SVR
+```{r}
+dataset=read.csv("train.csv")
+submit=read.csv("test.csv")
+library(caTools)
+dataset[c(1336,2303),15]=104
+```
+
+Train Test Split:
+```{r}
+set.seed(123)
+split = sample.split(dataset$revenue, SplitRatio = .66)
+training_set = subset(dataset, split==TRUE)
+test_set = subset(dataset, split==FALSE)
+
+```
+
+
+```{r}
+dataset[dataset$ï..id == 8,'budget'] = 60000
+dataset[dataset$ï..id == 9,'budget'] = 31000000
+dataset[dataset$ï..id == 12,'budget'] = 10000000
+dataset[dataset$ï..id == 18,'budget'] = 12000000
+
+dataset[dataset$ï..id == 90,'budget'] = 20000000
+dataset[dataset$ï..id == 117,'budget'] = 1876350
+dataset[dataset$ï..id == 118,'budget'] = 60000000
+dataset[dataset$ï..id == 149,'budget'] = 18000000 
+dataset[dataset$ï..id ==313,'revenue'] = 12000000 
+dataset[dataset$ï..id ==451,'revenue'] = 12000000
+dataset[dataset$ï..id ==464,'budget'] = 20000000 
+dataset[dataset$ï..id ==470,'budget'] = 13000000 
+dataset[dataset$ï..id ==513,'budget'] = 930000  
+dataset[dataset$ï..id ==797,'budget'] = 8000000
+dataset[dataset$ï..id ==819,'budget'] = 90000000
+dataset[dataset$ï..id ==850,'budget'] = 90000000  
+dataset[dataset$ï..id ==1007,'budget'] = 2 
+dataset[dataset$ï..id ==1112,'budget'] = 7500000
+dataset[dataset$ï..id ==1131,'budget'] = 4300000 
+dataset[dataset$ï..id ==1359,'budget'] = 10000000 
+dataset[dataset$ï..id ==1542,'budget'] = 1
+dataset[dataset$ï..id ==1570,'budget'] = 15800000 
+dataset[dataset$ï..id ==1571,'budget'] = 4000000
+dataset[dataset$ï..id ==1714,'budget'] = 46000000 
+dataset[dataset$ï..id ==1721,'budget'] = 17500000
+dataset[dataset$ï..id ==1865,'revenue'] = 25000000 
+dataset[dataset$ï..id ==1885,'budget'] = 12  
+dataset[dataset$ï..id ==2091,'budget'] = 10
+dataset[dataset$ï..id ==2268,'budget'] = 17500000
+dataset[dataset$ï..id ==2491,'budget'] = 6
+dataset[dataset$ï..id ==2602,'budget'] = 31000000
+dataset[dataset$ï..id ==2612,'budget'] = 15000000 
+dataset[dataset$ï..id ==2696,'budget'] = 10000000 
+dataset[dataset$ï..id ==2801,'budget'] = 10000000
+dataset[dataset$ï..id ==335,'budget'] = 2 
+dataset[dataset$ï..id ==348,'budget'] = 12
+dataset[dataset$ï..id ==470,'budget'] = 13000000
+dataset[dataset$ï..id ==513,'budget'] = 1100000
+dataset[dataset$ï..id ==640,'budget'] = 6
+dataset[dataset$ï..id ==696,'budget'] = 1
+dataset[dataset$ï..id ==797,'budget'] = 8000000 
+dataset[dataset$ï..id ==850,'budget'] = 1500000
+dataset[dataset$ï..id ==1199,'budget'] = 5 
+dataset[dataset$ï..id ==1282,'budget'] = 9 
+dataset[dataset$ï..id ==1347,'budget'] = 1
+dataset[dataset$ï..id ==1755,'budget'] = 2
+dataset[dataset$ï..id ==1801,'budget'] = 5
+dataset[dataset$ï..id ==1918,'budget'] = 592 
+dataset[dataset$ï..id ==2033,'budget'] = 4
+dataset[dataset$ï..id ==2118,'budget'] = 344
+dataset[dataset$ï..id ==2252,'budget'] = 130
+dataset[dataset$ï..id ==2256,'budget'] = 1 
+dataset[dataset$ï..id ==2696,'budget'] = 10000000
+dataset[dataset$ï..id ==171,'budget'] = 7600000
+dataset[dataset$ï..id ==2695,'budget'] = 8000000
+dataset[dataset$ï..id ==637,'budget'] = 6500000
+dataset[dataset$ï..id ==1555,'budget'] = 2500000
+dataset[dataset$ï..id ==1191,'budget'] = 2000000
+
+
+
+
+
+
+
+#Test Data Corrections----------------
+
+
+submit[submit$ï..id == 3033,'budget'] = 250 
+submit[submit$ï..id == 3051,'budget'] = 50
+submit[submit$ï..id == 3084,'budget'] = 337
+submit[submit$ï..id == 3224,'budget'] = 4 
+submit[submit$ï..id == 3594,'budget'] = 25 
+submit[submit$ï..id == 3619,'budget'] = 500 
+submit[submit$ï..id == 3831,'budget'] = 3 
+submit[submit$ï..id == 3935,'budget'] = 500 
+submit[submit$ï..id == 4049,'budget'] = 995946 
+submit[submit$ï..id == 4424,'budget'] = 3  
+submit[submit$ï..id == 4460,'budget'] = 8 
+submit[submit$ï..id == 4555,'budget'] = 1200000  
+submit[submit$ï..id == 4624,'budget'] = 30
+submit[submit$ï..id == 4645,'budget'] = 500
+submit[submit$ï..id == 4709,'budget'] = 450
+submit[submit$ï..id == 4839,'budget'] = 7
+submit[submit$ï..id == 3125,'budget'] = 25 
+submit[submit$ï..id == 3142,'budget'] = 1
+submit[submit$ï..id == 3201,'budget'] = 450
+submit[submit$ï..id == 3222,'budget'] = 6
+submit[submit$ï..id == 3545,'budget'] = 38
+submit[submit$ï..id == 3670,'budget'] = 18
+submit[submit$ï..id == 3792,'budget'] = 19
+submit[submit$ï..id == 3881,'budget'] = 7
+submit[submit$ï..id == 3969,'budget'] = 400
+submit[submit$ï..id == 4196,'budget'] = 6
+submit[submit$ï..id == 4221,'budget'] = 11
+submit[submit$ï..id == 4222,'budget'] = 500
+submit[submit$ï..id == 4285,'budget'] = 11
+submit[submit$ï..id == 4319,'budget'] = 1
+submit[submit$ï..id == 4639,'budget'] = 10
+submit[submit$ï..id == 4719,'budget'] = 45
+submit[submit$ï..id == 4822,'budget'] = 22
+submit[submit$ï..id == 4829,'budget'] = 20
+submit[submit$ï..id == 4969,'budget'] = 20
+submit[submit$ï..id == 5021,'budget'] = 40 
+submit[submit$ï..id == 5035,'budget'] = 1 
+submit[submit$ï..id == 5063,'budget'] = 14 
+submit[submit$ï..id == 5119,'budget'] = 2 
+submit[submit$ï..id == 5214,'budget'] = 30
+submit[submit$ï..id == 5221,'budget'] = 50 
+submit[submit$ï..id == 4903,'budget'] = 15
+submit[submit$ï..id == 4983,'budget'] = 3
+submit[submit$ï..id == 5102,'budget'] = 28
+submit[submit$ï..id == 5217,'budget'] = 75
+submit[submit$ï..id == 5224,'budget'] = 3 
+submit[submit$ï..id == 5469,'budget'] = 20 
+submit[submit$ï..id == 5840,'budget'] = 1 
+submit[submit$ï..id == 5960,'budget'] = 30
+submit[submit$ï..id == 6506,'budget'] = 11
+submit[submit$ï..id == 6553,'budget'] = 280
+submit[submit$ï..id == 6561,'budget'] = 7
+submit[submit$ï..id == 6582,'budget'] = 218
+submit[submit$ï..id == 6638,'budget'] = 5
+submit[submit$ï..id == 6749,'budget'] = 8 
+submit[submit$ï..id == 6759,'budget'] = 50 
+submit[submit$ï..id == 6856,'budget'] = 10
+submit[submit$ï..id == 6858,'budget'] =  100
+submit[submit$ï..id == 6876,'budget'] =  250
+submit[submit$ï..id == 6972,'budget'] = 1
+submit[submit$ï..id == 7079,'budget'] = 8000000
+submit[submit$ï..id == 7150,'budget'] = 118
+submit[submit$ï..id == 6506,'budget'] = 118
+submit[submit$ï..id == 7225,'budget'] = 6
+submit[submit$ï..id == 7231,'budget'] = 85
+submit[submit$ï..id == 5222,'budget'] = 5
+submit[submit$ï..id == 5322,'budget'] = 90
+submit[submit$ï..id == 5350,'budget'] = 70
+submit[submit$ï..id == 5378,'budget'] = 10
+submit[submit$ï..id == 5545,'budget'] = 80
+submit[submit$ï..id == 5810,'budget'] = 8
+submit[submit$ï..id == 5926,'budget'] = 300
+submit[submit$ï..id == 5927,'budget'] = 4
+submit[submit$ï..id == 5986,'budget'] = 1
+submit[submit$ï..id == 6053,'budget'] = 20
+submit[submit$ï..id == 6104,'budget'] = 1
+submit[submit$ï..id == 6130,'budget'] = 30
+submit[submit$ï..id == 6301,'budget'] = 150
+submit[submit$ï..id == 6276,'budget'] = 100
+submit[submit$ï..id == 6473,'budget'] = 100
+submit[submit$ï..id == 6842,'budget'] = 30
+
+
+
+submit[submit$ï..id == 3244,'runtime'] = 93
+submit[submit$ï..id == 4490,'runtime'] = 91
+submit[submit$ï..id == 4633,'runtime'] = 100
+submit[submit$ï..id == 6818,'runtime'] = 90
+
+
+
+
+```
+
+
+
+```{r}
+#table(is.na(training_set))
+#print(median(training_set[,15],na.rm = TRUE))
+
+```
+
+
+```{r}
+new_set=training_set[,c(3,10,15,23)]
+new_tset=test_set[,c(3,10,15)]
+```
+
+```{r}
+
+#new_set = scale(new_set)
+#new_tset = scale(new_tset)
+```
+
+```{r}
+#install.packages('e1071')
+library(e1071)
+```
+
+```{r}
+regressor = svm(formula = revenue~.,
+                data = new_set,
+                type = 'eps-regression',
+                na.action =na.omit, 
+                scale = TRUE,
+                degree=5,
+                kernel = 'polynomial')
+```
+
+
+
+```{r}
+test_set$predictedREV = predict(regressor, test_set)
+#tst$pred_revenue=y_pred
+#tst$revenue=scale(test_set$revenue)
+#unscale
+```
+
+```{r}
+summary(regressor)
+```
+
+
+```{r}
+#install.packages("DMwR")
+#library("DMwR")
+#temp01=training_set[,c(3,10,15,23)]
+#temp02=test_set[,c(3,10,15)]
+#tr=as.data.frame(new_set,temp01)
+#tst=as.data.frame(new_tset,temp02)
+
+```
+
+```{r}
+library(ggplot2)
+#x_grid = seq(min(new_set$budget), max(new_set$budget), 0.1)
+#x_grid = seq(min(dataset$Level), max(dataset$Level), 0.01)
+ggplot() +
+  geom_point(aes(x = dataset$budget, y = dataset$revenue),
+             colour = 'red') +
+  geom_line(aes(x =dataset$budget , y = predict(regressor, newdata=
+                                        )),
+            colour = 'blue') +
+  ggtitle('SVR') +
+  xlab('Budget') +
+  ylab('Revenue')
+```
+
+```{r}
+print(median(submit[,15],na.rm = TRUE))
+submit[c(244,1490,1633,3818),15]=104
+print(length(submit$ï..id))
+df=data.frame(id=c(submit$ï..id),revenue=rep(0,length(submit$ï..id)))
+
+df$revenue=predict(regressor,newdata =submit)
+write.csv(df, file="submittion_SVR.csv")
+```
+
